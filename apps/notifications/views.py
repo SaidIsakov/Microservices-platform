@@ -12,7 +12,7 @@ class CreateNotification(generics.CreateAPIView):
     notification = serializer.save()
 
     if notification:
-      send_notification_task.delay(notification.id)
+      send_notification_task.delay(notification.id) # type: ignore
 
 
 class RetrieveNotification(generics.RetrieveAPIView):

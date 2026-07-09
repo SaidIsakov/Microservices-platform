@@ -126,3 +126,35 @@ EMAIL_USE_TLS = True
 
 TELEGRAM_BOT_TOKEN = config('TELEGRAM_BOT_TOKEN')
 TELEGRAM_API_URL = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',
+        },
+    },
+
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+    },
+
+    'loggers': {
+        'apps': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        },
+
+    'httpx': {
+            'handlers': ['console'],
+            'level': 'WARNING',
+        },
+    },
+}

@@ -19,3 +19,5 @@ class NotificationSerializer(serializers.ModelSerializer):
     if not isinstance(value, dict):
       raise serializers.ValidationError('payload must be dict')
     return value
+
+
