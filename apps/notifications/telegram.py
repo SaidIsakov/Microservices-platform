@@ -11,5 +11,9 @@ def send_notification_from_tg(notification):
         },
         timeout=10
     )
+  if response.status_code == 400:
+    raise ValueError("Invalid chat_id")
+  elif response.status_code >= 500:
+    raise ConnectionError("Telegram error")
 
   return response
