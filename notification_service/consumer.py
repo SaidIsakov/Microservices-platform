@@ -14,9 +14,6 @@ def on_message(channel, method, properties, body):
   try:
     data = json.loads(body)
     print(f" [x] Получено: {data}")
-    print(f" [x] Получено: {data}")
-    print(f" [x] user_telegram_id = {data.get('user_telegram_id')}")
-    print(f" [x] user_email = {data.get('user_email')}")
 
     if data.get('user_telegram_id'):
       channel_type = 'TELEGRAM'

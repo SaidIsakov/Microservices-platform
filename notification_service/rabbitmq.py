@@ -5,11 +5,11 @@ def connect_rabbitmq():
   credentials = pika.PlainCredentials('guest', 'guest')
 
   host = config('RABBITMQ_HOST', 'rabbitmq')
-  port = int(config('RABBITMQ_PORT', 5672))
+  port = config('RABBITMQ_PORT', 5672)
 
   parameters = pika.ConnectionParameters(
     host=str(host),
-    port=port,
+    port=int(port),
     credentials=credentials
   )
   connection = pika.BlockingConnection(parameters)
