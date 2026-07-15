@@ -15,7 +15,9 @@ services:
       retries: 10
       start_period: 10s
     networks:
-      - microservices_net
+      microservices_net:
+        aliases:
+          - order_db
 
   app:
     build: .
@@ -28,7 +30,7 @@ services:
       postgres:
         condition: service_healthy
     environment:
-      DB_HOST: postgres
+      DB_HOST: order_db
     volumes:
       - ./:/app
     networks:
