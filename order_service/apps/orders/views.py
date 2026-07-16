@@ -15,18 +15,19 @@ class CreateOrderView(generics.CreateAPIView):
     order = serializer.save()
 
     try:
-      send_orders_exchange(order)
+      send_orders_exchange(order, 'order.created')
     except Exception as e:
       print(f"Ошибка RabbitMQ: {e}")
 
 
 class PayOrderView(APIView):
   def post(self, request, order_id):
-    order = Order.objects.get(id=order_id)
     try:
+      order = Order.objects.get(id=order_id)
       order.status = 'PAID'
       order.save()
+      send_orders_exchange(order, 'order.paid')
       return Response({'status': 'order paid'}, status=200)
     except Order.DoesNotExist:
-      return Response({'status: order does not exist'}, status=404)
+      return Response({'status': 'order does not exist'}, status=404)
 

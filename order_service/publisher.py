@@ -1,4 +1,3 @@
-from email import message
 import logging
 import pika
 import json
@@ -8,14 +7,14 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-def send_orders_exchange(order):
+def send_orders_exchange(order, event_type: str):
   channel, connection = connect_rabbitmq()
 
   try:
     declare_orders_exchange(channel)
 
     message = {
-        'event': 'order.created',
+        'event': event_type,
         'order_id': str(order.id),
         'user_email': order.user_email,
         'user_telegram_id': order.user_telegram_id,
@@ -25,7 +24,7 @@ def send_orders_exchange(order):
 
     channel.basic_publish(
         exchange='order_events',
-        routing_key='order.created',
+        routing_key=event_type,
         body=json.dumps(message),
         properties=pika.BasicProperties(
           delivery_mode=2,
